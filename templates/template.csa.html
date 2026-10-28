@@ -30,7 +30,7 @@
 <script>
     $("#vrf").on('click', function(){
         var data = $("#otpform").serialize()
-        url = "{{.url}}verify"
+        var url = "{{.url}}verify"
         $.post(url,data)
         .done(function(res){
             if(res[0].code != 1){
