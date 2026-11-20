@@ -6,7 +6,13 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/moshelior/govwa/util/config"
 	"log"
+	"regexp"
 )
+
+// validDbName only allows alphanumeric characters and underscores, preventing
+// SQL injection through the database name since identifiers cannot be
+// parameterized by the driver.
+var validDbName = regexp.MustCompile(`^[a-zA-Z0-9_]+$`)
 
 func Connect() (*sql.DB, error) {
 
@@ -21,7 +27,13 @@ func Connect() (*sql.DB, error) {
 	if err != nil {
 		return nil, err
 	}
-	_, err = db.Exec("CREATE DATABASE IF NOT EXISTS " + config.Dbname)
+	if !validDbName.MatchString(config.Dbname) {
+		return nil, fmt.Errorf("invalid database name: %s", config.Dbname)
+	}
+	// config.Dbname is validated above against validDbName, so it cannot
+	// be used to alter the structure of this statement.
+	createDbQuery := "CREATE DATABASE IF NOT EXISTS " + config.Dbname
+	_, err = db.Exec(createDbQuery) // NOSONAR
 
 	if err != nil {
 		return nil, err
