@@ -1,5 +1,6 @@
 {{define "template.login"}}
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <title>{{.Title}}</title>
@@ -29,10 +30,12 @@
                         <form action="" role="form" method="post" accept-charset="utf-8">
                             <fieldset>
                                 <div class="form-group">
-                                    <input type="text" name="username" value="" class="form-control" placeholder="username" />
+                                    <label for="username">Username</label>
+                                    <input type="text" name="username" id="username" value="" class="form-control" placeholder="username" />
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="password" value="" class="form-control" placeholder="Password" />
+                                    <label for="password">Password</label>
+                                    <input type="password" name="password" id="password" value="" class="form-control" placeholder="Password" />
                                 </div>
                                 <input type="submit" name="submit" value="Log in" class="btn btn-success btn-lg btn-block" />
                             </fieldset>
